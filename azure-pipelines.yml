@@ -35,9 +35,8 @@ steps:
     extraProperties: 
     #   sonar.exclusions=**/obj/**,**/*.dll
     #   sonar.branch.name=$(Build.SourceBranchName)
-    #   sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/*.trx
-      sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/**/*.xml
-# - script: dotnet build './RpsGame/RPS_GameMvc.csproj'
+      sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/*.trx
+      sonar.cs.opencover.reportsPaths=$(Agent.TempDirectory)/**/*.xml
 
 #build the .sln bc on line 63 there is a nobuild: true that 
 #tells the system that a full build already happened.
@@ -67,7 +66,7 @@ steps:
   displayName: 'Publish Code Coverage'
   inputs:
     codeCoverageTool: 'Cobertura'
-    summaryFileLocation: '$(Build.SourcesDirectory)/**/*.xml'
+    summaryFileLocation: '$(Agent.TempDirectory)/**/*.xml' #tells devops where to look for the xml test file
     #reportDirectory: '$(Build.SourcesDirectory)/CodeCoverage' #take this out bc this is already collected on line 59
 - task: SonarCloudAnalyze@1
 
