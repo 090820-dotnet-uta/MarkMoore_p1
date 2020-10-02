@@ -37,25 +37,27 @@ steps:
       sonar.branch.name=$(Build.SourceBranchName)
       sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/*.trx
       sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/**/*.xml
+- script: dotnet build './RpsGame/RPS_GameMvc.csproj'
 
 - task: DotNetCoreCLI@2
+  displayName: dotnet test
   inputs:
     command: 'test'
     arguments: '--configuration $(buildConfiguration)
       /p:CollectCoverage=true
-      /P:CoverageOutputFormat=opencover
-      /P:Coverageoutput=$(Build.SourceDirectory)/TestResults/Coverage
+      /p:CoverletOutputFormat=opencover
+      /p:Coverletoutput=$(Build.SourceDirectory)/TestResults/Coverage
       --logger trx'
     projects: './RPS_GameMvc.Tests/RPS_GameMvc.Tests.csproj'
     nobuild: true
 # - script: dotnet test './RPS_GameMvc.Tests/RPS_GameMvc.Tests.csproj'
 
-- task: DotNetCoreCLI@2
-  displayName: Build
-  inputs:
-    command: 'build'
-    projects: './RpsGame/RPS_GameMvc.csproj'
-    arguments: '--configuration $(buildConfiguration)'
+# - task: DotNetCoreCLI@2
+#   displayName: Build
+#   inputs:
+#     command: 'build'
+#     projects: './RpsGame/RPS_GameMvc.csproj'
+#     arguments: '--configuration $(buildConfiguration)'
 
 - task: PublishCodeCoverageResults@1
   displayName: 'Publish Code Coverage'
