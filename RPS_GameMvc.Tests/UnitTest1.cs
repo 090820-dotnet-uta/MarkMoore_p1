@@ -32,7 +32,26 @@ namespace RPS_GameMvc.Tests
 
 			//assert
 			Assert.Equal("jim jim", q.Name);
+		}
 
+		[Fact]
+		public void GameEditPlayerReturnsCorrectPlayer()
+		{
+			//Arrange
+			Rps_Game rpsgame = new Rps_Game();
+			Player p = new Player()
+			{
+				Name = "jim jim",
+				Losses = 2,
+				Wins = 4,
+				PlayerId = 100
+			};
+
+			//Act
+			bool q = rpsgame.GameEditPlayer(p);
+
+			//Assert
+			Assert.Equal(false, false);
 		}
 	}
 }
