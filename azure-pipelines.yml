@@ -40,12 +40,13 @@ steps:
 
 #build the .sln bc on line 63 there is a nobuild: true that 
 #tells the system that a full build already happened.
-- task: DotNetCoreCLI@2
-  displayName: Build
-  inputs:
-    command: 'build'
-    projects: './RpsGame/RPS_GameMvc.sln'
-    arguments: '--configuration $(buildConfiguration)'
+# - task: DotNetCoreCLI@2
+#   displayName: Build
+#   inputs:
+#     command: 'build'
+#     projects: './RpsGame/RPS_GameMvc.sln'
+#     arguments: '--configuration $(buildConfiguration)'
+- script: dotnet build ./RPS_GameMvc/RPS_GameMvc.sln
 
 - task: DotNetCoreCLI@2
   displayName: dotnet test
