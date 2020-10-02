@@ -27,7 +27,7 @@ steps:
 
 - task: SonarCloudPrepare@1
   inputs:
-    SonarCloud: 'RpsGameDemoServiceConnection'
+    SonarCloud: 'RPSGameDemoPipeline'
     organization: 'markmoore0827'
     scannerMode: 'MSBuild'
     projectKey: 'markmoore0827_RPSGameDemoPipeline'
