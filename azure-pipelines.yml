@@ -1,0 +1,81 @@
+# ASP.NET Core (.NET Framework)
+# Build and test ASP.NET Core projects targeting the full .NET Framework.
+# Add steps that publish symbols, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+#this means when you push to the master branch, a build is triggered
+trigger:
+  - main
+
+#using the latest windows image to as SDK etc
+pool:
+  vmImage: 'windows-latest'
+
+#setting variables
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+#adds the NuGet installer
+steps:
+- task: NuGetToolInstaller@1
+#this task restores the solution
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(solution)'
+
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'RpsGameDemoServiceConnection'
+    organization: 'markmoore0827'
+    scannerMode: 'MSBuild'
+    projectKey: 'markmoore0827_azurePipelineMvcDemo'
+    projectName: 'azurePipelineMvcDemo'
+    extraProperties: 
+      sonar.exclusions=**/obj/**,**/*.dll
+    #   sonar.branch.name=$(Build.SourceBranchName)
+    #   sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/*.trx
+    #   sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/**/*.xml
+# - script: dotnet build './RpsGame/RPS_GameMvc.csproj'
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'test'
+    arguments: '--configuration $(buildConfiguration)
+      /p:CollectCoverage=true
+      /P:CoverageOutputFormat=opencover
+      /P:Coverageoutput=$(Build.SourceDirectory)/TestResults/Coverage
+      --logger trx'
+    projects: './RPS_GameMvc.Tests/RPS_GameMvc.Tests.csproj'
+    nobuild: true
+# - script: dotnet test './RPS_GameMvc.Tests/RPS_GameMvc.Tests.csproj'
+
+- task: DotNetCoreCLI@2
+  displayName: Build
+  inputs:
+    command: 'build'
+    projects: './RpsGame/RPS_GameMvc.csproj'
+    arguments: '--configuration $(buildConfiguration)'
+
+- task: SonarCloudAnalyze@1
+
+- task: SonarCloudPublish@1
+  inputs:
+    pollingTimeoutSec: '300'
+# - script: dotnet publish './RpsGame/RPS_GameMvc.csproj'
+- task: DotNetCoreCLI@2
+  inputs:
+    command: publish
+    publishWebProjects: True
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: True
+
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: 'Azure subscription 1(5d150957-9944-40b9-b9e9-2a32c983a1f8)'
+    appType: 'webApp'
+    appName: 'RockPaperScissorsDemoSite'
+    package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+    deploymentMethod: 'auto'
+
+- task: PublishBuildArtifacts@1
