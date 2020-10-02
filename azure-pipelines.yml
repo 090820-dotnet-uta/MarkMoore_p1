@@ -37,7 +37,7 @@ steps:
       sonar.branch.name=$(Build.SourceBranchName)
       sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/*.trx
       sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/**/*.xml
-- script: dotnet build './RpsGame/RPS_GameMvc.csproj'
+# - script: dotnet build './RpsGame/RPS_GameMvc.csproj'
 
 - task: DotNetCoreCLI@2
   displayName: dotnet test
