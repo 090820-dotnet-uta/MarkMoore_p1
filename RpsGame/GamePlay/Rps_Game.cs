@@ -18,6 +18,8 @@ namespace RPS_GameMvc.GamePlay
 		private IMemoryCache _cache;
 		private readonly DbContextClass _context;
 
+		public Rps_Game(){}
+
 		public Rps_Game(ILogger<Rps_Game> logger, IMemoryCache cache, DbContextClass context)
 		{
 			_logger = logger;
