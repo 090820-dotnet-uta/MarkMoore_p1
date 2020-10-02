@@ -46,7 +46,7 @@ steps:
 #     command: 'build'
 #     projects: './RpsGame/RPS_GameMvc.sln'
 #     arguments: '--configuration $(buildConfiguration)'
-- script: dotnet build ./RPS_GameMvc/RPS_GameMvc.sln --configuration $(buildConfiguration)
+- script: dotnet build ./RpsGame/RPS_GameMvc.sln --configuration $(buildConfiguration)
 
 - task: DotNetCoreCLI@2
   displayName: dotnet test
