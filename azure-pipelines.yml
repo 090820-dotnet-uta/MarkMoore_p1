@@ -30,8 +30,8 @@ steps:
     SonarCloud: 'RpsGameDemoServiceConnection'
     organization: 'markmoore0827'
     scannerMode: 'MSBuild'
-    projectKey: 'markmoore0827_azurePipelineMvcDemo'
-    projectName: 'azurePipelineMvcDemo'
+    projectKey: 'markmoore0827_RPSGameDemoPipeline'
+    projectName: 'RPSGameDemoPipeline'
     extraProperties: 
       sonar.exclusions=**/obj/**,**/*.dll
     #   sonar.branch.name=$(Build.SourceBranchName)
