@@ -34,10 +34,10 @@ steps:
     projectName: 'RPSGameDemoPipeline'
     extraProperties: 
       sonar.exclusions=**/obj/**,**/*.dll
-    #   sonar.branch.name=$(Build.SourceBranchName)
-    #   sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/*.trx
-    #   sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/**/*.xml
-# - script: dotnet build './RpsGame/RPS_GameMvc.csproj'
+      sonar.branch.name=$(Build.SourceBranchName)
+      sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/*.trx
+      sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/**/*.xml
+
 - task: DotNetCoreCLI@2
   inputs:
     command: 'test'
@@ -57,6 +57,12 @@ steps:
     projects: './RpsGame/RPS_GameMvc.csproj'
     arguments: '--configuration $(buildConfiguration)'
 
+- task: PublishCodeCoverageResults@1
+  displayName: 'Publish Code Coverage'
+  inputs:
+    codeCoverageTool: 'Cobertura'
+    summaryFileLocation: '$(Build.SourcesDirectory)/**/*.xml'
+    reportDirectory: '$(Build.SourcesDirectory)/CodeCoverage'
 - task: SonarCloudAnalyze@1
 
 - task: SonarCloudPublish@1
