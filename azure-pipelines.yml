@@ -46,7 +46,7 @@ steps:
 #     command: 'build'
 #     projects: './RpsGame/RPS_GameMvc.sln'
 #     arguments: '--configuration $(buildConfiguration)'
-- script: dotnet build ./RPS_GameMvc/RPS_GameMvc.sln
+- script: dotnet build ./RPS_GameMvc/RPS_GameMvc.sln --configuration $(buildConfiguration)
 
 - task: DotNetCoreCLI@2
   displayName: dotnet test
@@ -60,7 +60,7 @@ steps:
       # /p:CoverletOutputFormat=opencover
       # /p:Coverletoutput=$(Build.SourceDirectory)/TestResults/Coverage
     projects: './RPS_GameMvc.Tests/RPS_GameMvc.Tests.csproj'
-    nobuild: true
+    #nobuild: true
 # - script: dotnet test './RPS_GameMvc.Tests/RPS_GameMvc.Tests.csproj'
 
 - task: PublishCodeCoverageResults@1
