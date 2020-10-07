@@ -36,7 +36,8 @@ steps:
     #   sonar.exclusions=**/obj/**,**/*.dll
     #   sonar.branch.name=$(Build.SourceBranchName)
       sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/*.trx
-      sonar.cs.opencover.reportsPaths=$(Agent.TempDirectory)/**/coverage.opencover.xml
+      sonar.cs.opencover.reportsPaths=$(Agent.TempDirectory)/**/coverage.coburtura.xml
+      #sonar.cs.opencover.reportsPaths=$(Agent.TempDirectory)/**/coverage.opencover.xml
 
 #build the .sln bc on line 63 there is a nobuild: true that 
 #tells the system that a full build already happened.
